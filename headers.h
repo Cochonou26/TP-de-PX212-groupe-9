@@ -7,7 +7,7 @@ typedef struct deplacement{
 }deplacement;
 
 char *[][] lectureTableau(int niveau); // renvoie le niveau
-void afficheTableau(char *niveau[][]); // affiche le tableau sur le terminal
+void afficheNiveau(char *niveau[][]); // affiche le tableau sur le terminal
 //char gestionEntree(?);
 char verifDeplacement(char *niveau[][]); // renvoie un "booléen"
 void deplacement (char *niveau[][], char dep, int xJoueur, int yJoueur); // modifie le niveau
