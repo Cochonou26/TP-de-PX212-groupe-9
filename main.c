@@ -3,14 +3,16 @@ int main(int argc, int *argv[]){
 		lireNiveau();
 		afficherNiveau();
 		while (!reussiteNiveau){
-			switch (detectionTouche()){
-				case rien:
-					break;
+			switch (litEntree();){
 				case sauvegarder:
-					sauvergarderNiveau();
+					sauvergardePartie(FILE *fichierSauvegarde);
 					break;
-				case default:
-					afficherNiveau();
+				case recommencer:
+					reinitialiserNiveau(); // a voir pour affichage / reset
+					break;
+				case annuler:
+					annulerCoup(); // a voir pour affichage / reset
+					break;
 				case up:
 				case down:
 				case left:
@@ -18,15 +20,9 @@ int main(int argc, int *argv[]){
 					gestionDeplacement();
 					comptage();
 					detectionReussite();
-					break;
-				case recommencer:
-					reinitialiserNiveau();
-					break;
-				case annuler:
-					annulerCoup();
-					break;
+				case default:
+					afficherNiveau();
 			}
-			
 		}
 	}
 	return 0;
