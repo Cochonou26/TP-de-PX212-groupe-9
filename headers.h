@@ -10,9 +10,9 @@ char *[][] lectureTableau(int niveau); // renvoie le niveau
 void afficheTableau(char *niveau[][]); // affiche le tableau sur le terminal
 //char gestionEntree(?);
 char verifDeplacement(char *niveau[][]); // renvoie un "booléen"
-void deplacement (char *niveau[][]); // modifie le niveau
+void deplacement (char *niveau[][], char dep, int xJoueur, int yJoueur); // modifie le niveau
 char detecReussite(char *niveau[][]); // renvoit un booléen
-void comptage(int *nbMouvements, int *nbPoussees);
+void comptage(deplacement *dep, char incM, char incP);
 void annulerDeplacement(deplacement *trajet);
 void sauvegardePartie(FILE *fichierSauvegarde);
 void sauvegardeSolution(FILE *fichierSolutions);
