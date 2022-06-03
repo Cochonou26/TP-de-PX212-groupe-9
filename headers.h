@@ -14,5 +14,5 @@ void deplacement (char *niveau[][]); // modifie le niveau
 char detecReussite(char *niveau[][]); // renvoit un booléen
 void comptage(int *nbMouvements, int *nbPoussees);
 void annulerDeplacement(deplacement *trajet);
-void sauvegarder(FILE *fichierSauvegarde);
-void enregistrerSolution(FILE *fichierSolutions);
+void sauvegardePartie(FILE *fichierSauvegarde);
+void sauvegardeSolution(FILE *fichierSolutions);
