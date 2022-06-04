@@ -1,9 +1,8 @@
-#include "lireNiveau.h"
-#include "afficherNiveau.h"
-#include "tailleNiveau.h"
+#include "lectureTableau.h"
+#include "affichageTableau.h"
 
 int main(int argc, char *argv[]){
-	int niveau = 1;
+	int niveau = 2;
 	char *fichierNiveaux = "levels.lvl";
 	char ***tableauNiveau;
 	int *tableauTaille;
