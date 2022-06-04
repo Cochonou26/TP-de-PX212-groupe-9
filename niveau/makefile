@@ -1,7 +1,11 @@
 CFLAGS=-g -Wall
 LDFLAGS=-lm
 CC=gcc
-main: main.c lectureTableau.c affichageTableau.c
-	${CC} -o $@ ${CFLAGS} $^
+
+main: main.o lectureTableau.o affichageTableau.o util.o
+	${CC} -o $@ ${CFLAGS} $^ ${LDFLAGS}
+.c.o:
+	${CC} ${CFLAGS} -c $<
 clean:
-	rm main 
+	rm main
+	rm *.o
