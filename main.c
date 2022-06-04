@@ -4,19 +4,19 @@ int main(int argc, int *argv[]){
 		afficherNiveau();
 		while (!reussiteNiveau){
 			switch (litEntree();){
-				case sauvegarder:
+				case 115: //touche S pour sauvegarder
 					sauvergardePartie(FILE *fichierSauvegarde);
 					break;
-				case recommencer:
+				case 114: //touche R pour recommencer
 					reinitialiserNiveau(); // a voir pour affichage / reset
 					break;
-				case annuler:
+				case 127: //touche echap pour annuler
 					annulerCoup(); // a voir pour affichage / reset
 					break;
-				case up:
-				case down:
-				case left:
-				case right:
+				case 1:    //ici on utiise la fonction dans deplacement.c (haut)
+				case 2:    //bas
+				case 3:    //gauche
+				case 4:    //droite
 					gestionDeplacement();
 					comptage();
 					detectionReussite();
