@@ -5,39 +5,90 @@
 #include "lectureTableau.h"
 #include "util.h"
 
-void trouverNiveau(char *fichierNiveaux, int niveau, FILE **rfpp){
-	char *strNiveau, *s;
-
-	if ((strNiveau = malloc(sizeof(char)*(MAXSTRNIVEAU+ strlen(";LEVEL ")))) == NULL)
-		perror("malloc");
-	snprintf(strNiveau, MAXSTRNIVEAU + strlen(";LEVEL "), ";LEVEL %d\n",niveau);
-	if ((*rfpp = fopen(fichierNiveaux, "r")) == NULL)
+/**
+ * Retourne la longueur du nombre de niveaux max
+ * Inclus dans la longueur les caractères '\n' et '\0'
+ */
+int longueurNbNiveaux(char *fichierNiveaux)
+{
+	FILE *rfp;
+	char *strMaxLevel = "MAXLEVEL ", *strComparaison;
+	char longueurStrMaxLevel = strlen(strMaxLevel);
+	int c, l = 2;
+	
+	if ((rfp = fopen(fichierNiveaux, "r")) == NULL) // Ouverture fichier
 		perror("fopen");
-	if ((s = malloc(sizeof(char)*MAXSIZE)) == NULL)
+	if ((strComparaison = malloc(sizeof(char) * (longueurStrMaxLevel + 1))) == NULL)//Alloc comp
 		perror("malloc");
-	while (fgets(s, MAXSIZE, *rfpp) != NULL){
-		if (!strcmp(s, strNiveau))
-			break;
+	while ((c = fgetc(rfp)) != EOF){
+		if (c == ';'){
+			fgets(strComparaison, longueurStrMaxLevel + 1, rfp);
+			if (!strcmp(strComparaison, strMaxLevel)){ // Si detection ";MAXLEVEL "
+				while ((c = fgetc(rfp)) != '\n')
+					l++;
+				if (fclose(rfp) == EOF)
+					perror("fclose");
+				return l;
+			}
+		}
 	}
+	return 1;
 }
 
-int *tailleNiveau(char *fichierNiveaux, int niveau){
-	FILE *rfp = NULL;
-	char *s;
-	int nLignes = 0, nColonnes = 0;
-	int *tableauTaille;
+int trouverNiveau(char *fichierNiveaux, int niveau, FILE **rfpp)
+{
+	char *strNiveau = "LEVEL ", *strNumero, *strComparaison;
+	char longueurStrNiveau = strlen(strNiveau);
+	int c, maxStrNumero;
+
+	if ((maxStrNumero = longueurNbNiveaux(fichierNiveaux)) == 1)
+		perror("longueurNbNiveaux");
+	if ((strNumero = malloc(sizeof(char) * maxStrNumero)) == NULL) // Allocation num. niveau
+		perror("malloc");
+	snprintf(strNumero, maxStrNumero, "%d\n", niveau); // Création num. niveau
+	if ((strComparaison = malloc(sizeof(char) * (longueurStrNiveau))) == NULL)//Alloc comp.
+		perror("malloc");
+	if ((*rfpp = fopen(fichierNiveaux, "r")) == NULL) // Ouverture fichier
+		perror("fopen");
+	while ((c = fgetc(*rfpp)) != EOF){
+		if (c == ';'){
+			fgets(strComparaison, longueurStrNiveau + 1, *rfpp);
+			if (!strcmp(strComparaison, strNiveau)){ // Si detection ";LEVEL "
+				fgets(strComparaison, maxStrNumero, *rfpp);
+				if (!strcmp(strComparaison, strNumero)) // Si detection bon numero
+					return 0;
+			}
+		}
+
+	}
+	return 1;
+}
+
+int *tailleNiveau(char *fichierNiveaux, int niveau)
+{
+	FILE *rfp;
+	int nLignes = 0, nColonnes = 0, *tableauTaille;
+	int c, colonnesTemp = 0;
 
 	trouverNiveau(fichierNiveaux, niveau, &rfp);
-	if ((s = malloc(sizeof(char)*MAXSIZE)) == NULL)
-		perror("malloc");
-	//comptage du nombre de lignes et de colonnes
-	while ((fgets(s, MAXSIZE, rfp) != NULL) && (s[0] != ';')){
-		nColonnes = MAX(nColonnes, strlen(s) - 1);
-		nLignes++;
+	
+	while (((c = fgetc (rfp)) != EOF) && (c != ';')){
+		if (c == '\n'){
+			nLignes++;
+			nColonnes = MAX(colonnesTemp, nColonnes);
+			colonnesTemp = 0;
+		}
+		else
+			colonnesTemp++;
 	}
+	if (c == EOF){
+		nLignes++;
+		nColonnes = MAX(colonnesTemp, nColonnes);
+	}
+
 	if (fclose(rfp) == EOF)
 		perror("fclose");
-
+	
 	if ((tableauTaille = malloc(2*sizeof(int))) == NULL)
 		perror("malloc");
 	tableauTaille[0] = nLignes;
@@ -45,7 +96,8 @@ int *tailleNiveau(char *fichierNiveaux, int niveau){
 	return tableauTaille;
 }
 
-char *** lireNiveau(char *fichierNiveaux, int niveau, int nLignes, int nColonnes){
+char *** lireNiveau(char *fichierNiveaux, int niveau, int nLignes, int nColonnes)
+{
 	FILE *rfp = NULL;
 	char ***tabNiveau = NULL;
 	int iLigne, iColonne;

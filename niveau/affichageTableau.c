@@ -8,7 +8,7 @@ void afficherNiveau(char ***tableauNiveau, int nLignes, int nColonnes){
 	for (iLigne = 0; iLigne < nLignes; iLigne++){
 		for (iColonne = 0; iColonne < nColonnes + 1; iColonne++){ // + 1 pour '\n'
 			c = *tableauNiveau[iLigne][iColonne];
-			printf("%c", c);
+			putchar(c);
 			if (c == '\n')
 				break;
 		}
