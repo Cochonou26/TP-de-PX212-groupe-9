@@ -7,5 +7,5 @@ main: main.o lectureTableau.o affichageTableau.o util.o
 .c.o:
 	${CC} ${CFLAGS} -c $<
 clean:
-	rm main
-	rm *.o
+	rm -f main
+	rm -f *.o

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lectureTableau.h"
-#include "affichageTableau.h"
+#include "fonctions.h"
 
 int
 main(int argc, char *argv[]){

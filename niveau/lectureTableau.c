@@ -117,6 +117,8 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 	int c;
 
 	pNiveau = emalloc(sizeof(niveau));
+	pNiveau->lJoueur = emalloc(sizeof(int));
+	pNiveau->cJoueur = emalloc(sizeof(int));
 
 	// Positionnement de rfp avant le niveau
 	rfp = efopen(fichierNiveaux, "r");
@@ -159,8 +161,8 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 			c = fgetc(rfp);
 			*pNiveau->tabNiveau[iLigne][iColonne] = c;
 			if (c == '@'){
-				pNiveau->lJoueur = iLigne;
-				pNiveau->cJoueur = iColonne;
+				*pNiveau->lJoueur = iLigne;
+				*pNiveau->cJoueur = iColonne;
 			}else if (c == '\n')
 				break;
 		}
