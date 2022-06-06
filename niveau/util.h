@@ -7,6 +7,8 @@ typedef struct niveau{
 	char ***tabNiveau;
 	int nLignes;
 	int nColonnes;
+	int lJoueur;
+	int cJoueur;
 }niveau;
 
 void *emalloc(unsigned int n);

@@ -138,9 +138,11 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 
 	// Affectation taille niveau
 	pNiveau->nLignes = tabTaille[0];
-	pNiveau->nColonnes = tabTaille[1];
+	pNiveau->nColonnes = tabTaille[1];	
 	free(tabTaille);
 
+
+	
 	// Allocation mémoire du tableau
 	pNiveau->tabNiveau = emalloc(sizeof(char **) * pNiveau->nLignes);
 	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
@@ -156,7 +158,10 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 		for (iColonne = 0; iColonne < (pNiveau->nColonnes + 1); iColonne++){
 			c = fgetc(rfp);
 			*pNiveau->tabNiveau[iLigne][iColonne] = c;
-			if (c == '\n')
+			if (c == '@'){
+				pNiveau->lJoueur = iLigne;
+				pNiveau->cJoueur = iColonne;
+			}else if (c == '\n')
 				break;
 		}
 	}

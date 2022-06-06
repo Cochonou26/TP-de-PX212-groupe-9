@@ -10,7 +10,8 @@ main(int argc, char *argv[]){
 	niveau *pNiveau;
 
 	numNiveau = 88;
-	pNiveau = creerNiveau(fichierNiveaux, numNiveau);
+	if ((pNiveau = creerNiveau(fichierNiveaux, numNiveau)) == NULL)
+		printf("Erreur création niveau %d\n", numNiveau);
 	afficherNiveau(pNiveau->tabNiveau, pNiveau->nLignes, pNiveau->nColonnes);
 	freeNiveau(pNiveau);
 	return 0;
