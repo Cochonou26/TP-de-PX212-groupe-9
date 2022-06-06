@@ -1,3 +1,4 @@
-int *tailleNiveau(char *fichierNiveaux, int niveau);
-char *** lireNiveau(char *fichierNiveaux, int niveau, int nLignes, int nColonnes);
+#include "util.h"
+
+niveau *creerNiveau(char *fichierNiveaux, int numNiveau);
 

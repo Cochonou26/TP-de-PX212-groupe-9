@@ -1,124 +1,168 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <string.h>
-#include "lectureTableau.h"
 #include "util.h"
 
 /**
- * Retourne la longueur du nombre max de niveaux
- * Inclus dans la longueur les caractères '\n' et '\0'
+ * Place le rfp donné à la fin de la métadonnee demandée
  */
-int longNbNiveaux(char *fichierNiveaux)
+int
+trouverMeta(char *strMeta, FILE *rfp)
 {
-	FILE *rfp;
-	char *strMaxLevel = "MAXLEVEL ", *strComp;
-	char longStrMaxLevel = strlen(strMaxLevel);
-	int c, l = 2;
-	
-	rfp = efopen(fichierNiveaux, "r");
-	strComp = emalloc(sizeof(char) * (longStrMaxLevel + 1));
-	
+	char *strComp;
+	int c, longStrMeta;
+
+	// Creation strComp
+	longStrMeta = strlen(strMeta);
+	strComp = emalloc(sizeof(char) * longStrMeta + 1);
+
+	// Recherche meta
 	while ((c = fgetc(rfp)) != EOF){
 		if (c == ';'){
-			fgets(strComp, longStrMaxLevel + 1, rfp); //Obtenir metadonnee
-			if (!strcmp(strComp, strMaxLevel)){ // Si ";MAXLEVEL "
-				while ((c = fgetc(rfp)) != '\n') // Comptage nombre de caracteres
-					l++;
-				efclose(rfp);
-				return l;
+			fgets(strComp, longStrMeta + 1, rfp); // Obtenir meta
+			if (!strcmp(strComp, strMeta)){ // Si bonne meta
+				free(strComp);
+				return 0;
 			}
+		}
+	}
+	free(strComp);
+	return 1;
+}
+
+/**
+ * Lis une ligne jusqu'au caractère '\n', à partir d'un rfp
+ */
+void
+lireLigne(FILE *rfp)
+{
+	int c;
+
+	while ((c = fgetc(rfp)) != EOF && c != '\n');
+}
+
+/**
+ * Place le rfp donné juste avant le premier caractère du niveau demandé
+ */
+int
+trouverNiveau(int numNiveau, FILE *rfp)
+{
+	char *strNiveau;
+	int longStrNumNiveau, c;
+	
+	// Creation strNiveau
+	longStrNumNiveau = (int)log10(numNiveau) + 1;
+	strNiveau = emalloc(sizeof(char) * (strlen("LEVEL ") + longStrNumNiveau + 2));
+	snprintf(strNiveau, strlen("LEVEL ") + longStrNumNiveau + 2, "LEVEL %d\n", numNiveau);
+	
+	// Recherche Niveau
+	if (trouverMeta(strNiveau, rfp)){
+		printf("Metadonnée \"%s\" non trouvée\n", strNiveau);
+		free(strNiveau);
+		return 1;
+	}
+	free(strNiveau);
+
+	// Traitement d'éventuelles métadonnées
+	while ((c = fgetc(rfp) != EOF)){
+		if (c == ';')
+			lireLigne(rfp);
+		else{
+			fseek(rfp, -1, SEEK_CUR);
+			return 0;
 		}
 	}
 	return 1;
 }
 
-int trouverNiveau(char *fichierNiveaux, int niveau, FILE **rfpp)
+int *
+tailleNiveau(int numNiveau, FILE *rfp)
 {
-	char *strNiveau = "LEVEL ", *strNumero, *strComp;
-	char longStrNiveau = strlen(strNiveau);
-	int c, maxStrNumero;
+	int nLignes, nColonnes, n, *tabTaille, nColonnesTemp;
+	int c;
 
-	if ((maxStrNumero = longNbNiveaux(fichierNiveaux)) == 1)
-		perror("Nombre max de niveaux non trouvé");
-	strNumero = emalloc(sizeof(char) * maxStrNumero);
-	snprintf(strNumero, maxStrNumero, "%d\n", niveau); // Création str num niveau
-	strComp = emalloc(sizeof(char) * (longStrNiveau));
-	*rfpp = efopen(fichierNiveaux, "r");
+	nLignes = nColonnes = nColonnesTemp = 0;
 	
-	while ((c = fgetc(*rfpp)) != EOF){
-		if (c == ';'){
-			fgets(strComp, longStrNiveau + 1, *rfpp); //Obtenir metadonnee
-			if (!strcmp(strComp, strNiveau)){ // Si ";LEVEL "
-				fgets(strComp, maxStrNumero, *rfpp); // Obtenir numero
-				if (!strcmp(strComp, strNumero)) // Si bon numero
-					return 0;
-			}
-		}
-
-	}
-	return 1;
-}
-
-int *tailleNiveau(char *fichierNiveaux, int niveau)
-{
-	FILE *rfp;
-	int nLignes = 0, nColonnes = 0, *tableauTaille;
-	int c, colonnesTemp = 0;
-
-	if (trouverNiveau(fichierNiveaux, niveau, &rfp) == 1)
-		perror("Niveau non trouvé");
-	
-	//Comptage taille niveau
-	while (((c = fgetc (rfp)) != EOF) && (c != ';')){
+	while ((c = fgetc(rfp)) != EOF && (c != ';')){
+		n++;
 		if (c == '\n'){
 			nLignes++;
-			nColonnes = MAX(colonnesTemp, nColonnes);
-			colonnesTemp = 0;
-		}
-		else
-			colonnesTemp++;
+			nColonnes = MAX(nColonnesTemp, nColonnes);
+			nColonnesTemp = 0;
+		}else
+			nColonnesTemp++;
 	}
 	if (c == EOF){
 		nLignes++;
-		nColonnes = MAX(colonnesTemp, nColonnes);
+		nColonnes = MAX(nColonnesTemp, nColonnes);
 	}
 
-	efclose(rfp);
-	
-	tableauTaille = emalloc(2*sizeof(int));
-	tableauTaille[0] = nLignes;
-	tableauTaille[1] = nColonnes;
-	return tableauTaille;
+	if (nLignes == 0 || nColonnes == 0)
+		return NULL;
+
+	tabTaille = emalloc(3*sizeof(int));
+	tabTaille[0] = nLignes;
+	tabTaille[1] = nColonnes;
+	tabTaille[2] = n;
+	printf("Dimensions niveau : %d lignes, %d colonnes\n", nLignes, nColonnes);
+	return tabTaille;
 }
 
-char *** lireNiveau(char *fichierNiveaux, int niveau, int nLignes, int nColonnes)
+niveau *
+creerNiveau(char *fichierNiveaux, int numNiveau)
 {
-	FILE *rfp = NULL;
-	char ***tabNiveau = NULL;
-	int iLigne, iColonne;
+	niveau *pNiveau;
+	FILE *rfp;
+	int iLigne, iColonne, *tabTaille;
 	int c;
-	
-	if (trouverNiveau(fichierNiveaux, niveau, &rfp) == 1)
-		perror("Niveau non trouvé");
 
-	// Allocation memoire du tableau
-	tabNiveau = emalloc(sizeof(char **)*nLignes);
-	for (iLigne = 0; iLigne < nLignes; iLigne++)
-		tabNiveau[iLigne] = emalloc(sizeof(char *)*nColonnes);
-	
+	pNiveau = emalloc(sizeof(niveau));
+
+	// Positionnement de rfp avant le niveau
+	rfp = efopen(fichierNiveaux, "r");
+	if (trouverNiveau(numNiveau, rfp)){
+		efclose(rfp);
+		printf("Niveau %d non trouvé\n", numNiveau);
+		return NULL;
+	}
+
+	// Determination taille niveau
+	if ((tabTaille = tailleNiveau(numNiveau, rfp)) == NULL){
+		efclose(rfp);
+		free(tabTaille);
+		printf("Taille du niveau %d non trouvée", numNiveau);
+		return NULL;
+	}
+
+	fseek(rfp, -(tabTaille[2] + 1), SEEK_CUR); // Retour de rfp avant le niveau
+
+	// Affectation taille niveau
+	pNiveau->nLignes = tabTaille[0];
+	pNiveau->nColonnes = tabTaille[1];
+	free(tabTaille);
+
+	// Allocation mémoire du tableau
+	pNiveau->tabNiveau = emalloc(sizeof(char **) * pNiveau->nLignes);
+	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
+		pNiveau->tabNiveau[iLigne] = emalloc(sizeof(char *) * (pNiveau->nColonnes + 1)); // + 1 pour '\n'
+		for (iColonne = 0; iColonne < (pNiveau->nColonnes + 1); iColonne++){
+			pNiveau->tabNiveau[iLigne][iColonne] = emalloc(sizeof(char));
+			*pNiveau->tabNiveau[iLigne][iColonne] = SOL;
+		}
+	}
+
 	// Remplissage du tableau
-	for (iLigne = 0; iLigne < nLignes; iLigne++){
-		for (iColonne = 0; iColonne < (nColonnes + 1); iColonne++){ // + 1 pour '\n'
+	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
+		for (iColonne = 0; iColonne < (pNiveau->nColonnes + 1); iColonne++){
 			c = fgetc(rfp);
-			tabNiveau[iLigne][iColonne] = emalloc(sizeof(char));
-			*tabNiveau[iLigne][iColonne] = c;
+			*pNiveau->tabNiveau[iLigne][iColonne] = c;
 			if (c == '\n')
 				break;
 		}
 	}
 
 	efclose(rfp);
-	return tabNiveau;
+	return pNiveau;
 }
 

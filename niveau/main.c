@@ -1,25 +1,29 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "lectureTableau.h"
 #include "affichageTableau.h"
 
-int main(int argc, char *argv[]){
-	int niveau;
+int
+main(int argc, char *argv[]){
+	int numNiveau;
 	char *fichierNiveaux = "levels.lvl";
-	char ***tableauNiveau;
-	int *tableauTaille;
-	int nLignes, nColonnes;
-
-	if (argc != 1 && (*argv[1] - 48 > 0))
-		niveau = *argv[1] - 48;
-	else{
-		printf("erreur, format: main <niveau>\n");
+	niveau *pNiveau;
+	/*
+	if (argc != 1){
+		if (*argv[1] - 48 > 0)
+			numNiveau = *argv[1] - 48;
+		else{
+			printf("erreur, format: main <numNiveau>\n");
+			return 1;
+		}
+	}else{
+		printf("erreur, format: main <numNiveau>\n");
 		return 1;
 	}
-
-	tableauTaille = tailleNiveau(fichierNiveaux, niveau);
-	nLignes = tableauTaille[0];
-	nColonnes = tableauTaille[1];
-	tableauNiveau = lireNiveau(fichierNiveaux, niveau, nLignes, nColonnes);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
+	*/
+	numNiveau = 1;
+	pNiveau = creerNiveau(fichierNiveaux, numNiveau);
+	afficherNiveau(pNiveau->tabNiveau, pNiveau->nLignes, pNiveau->nColonnes);
+	freeNiveau(pNiveau);
 	return 0;
 }
