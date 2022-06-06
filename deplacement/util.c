@@ -46,6 +46,8 @@ freeNiveau(niveau *pNiveau)
 		free(pNiveau->tabNiveau[iLigne]);
 	}
 	free(pNiveau->tabNiveau);
+	free(pNiveau->lJoueur);
+	free(pNiveau->cJoueur);
 	free(pNiveau);
 }
 

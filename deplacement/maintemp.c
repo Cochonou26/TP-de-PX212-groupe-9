@@ -21,6 +21,7 @@ int main(int argc, char *argv[]){
 		if (deplacement(pNiveau, litClavier()))
 			printf("Erreur déplacement\n");
 		afficherNiveau(pNiveau->tabNiveau, pNiveau->nLignes, pNiveau->nColonnes);
-	}	
+	}
+	freeNiveau(pNiveau);
 	return 0;
 }
