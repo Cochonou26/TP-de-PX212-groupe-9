@@ -1,60 +1,26 @@
 #include <stdio.h>
-#include "deplacement.h"
-#include "lectureTableau.h"
-#include "affichageTableau.h"
-#include "io.c"
+#include "fonctions.h"
 
 int main(int argc, char *argv[]){
-	int dep;
-	int niveau;
+	int numNiveau;
 	char *fichierNiveaux = "levels.lvl";
-	char ***tableauNiveau;
-	int *tableauTaille;
-	int nLignes, nColonnes;
-	int lJoueur = 8, cJoueur = 11, *plJoueur, *pcJoueur;
+	niveau *pNiveau;
 
-	plJoueur = &lJoueur;
-	pcJoueur = &cJoueur;
+	numNiveau = 88;
 
-	/*if (argc != 1){
-		if (*argv[1] - 48 > 0)
-			niveau = *argv[1] - 48;
-		else{
-			printf("erreur, format: main <niveau>\n");
-			return 1;
-		}
-	}else{
-		printf("erreur, format: main <niveau>\n");
-		return 1;
-	}
-	*/
-	niveau = 1;
+	if ((pNiveau = creerNiveau(fichierNiveaux, numNiveau)) == NULL) // Creation niveau
+		printf("Erreur création niveau %d\n", numNiveau);
 
-	tableauTaille = tailleNiveau(fichierNiveaux, niveau);
-	nLignes = tableauTaille[0];
-	nColonnes = tableauTaille[1];
-/*	tableauNiveau = lireNiveau(fichierNiveaux, niveau, nLignes, nColonnes);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
-	deplacement(tableauNiveau, 1, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
-	deplacement(tableauNiveau, 3, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
-	deplacement(tableauNiveau, 3, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
-	deplacement(tableauNiveau, 3, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
-	deplacement(tableauNiveau, 3, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);
-	deplacement(tableauNiveau, 3, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);                   //test manuel
-	deplacement(tableauNiveau, 2, plJoueur, pcJoueur);
-	afficherNiveau(tableauNiveau, nLignes, nColonnes);  */
-	
+	if (configureTerminal())
+		printf("Erreur configuration terminal\n");
+	printf("\033[H\033[2J");
+	afficherNiveau(pNiveau->tabNiveau, pNiveau->nLignes, pNiveau->nColonnes);
+
 	while (1) {  //1 tant que la condition de reussite est pas codée
 		printf("\033[H\033[2J"); //equivalent au system clear (le prof prefere)
-		dep = litEntree();
-		deplacement(tableauNiveau, dep, plJoueur, pcJoueur);
-		afficherNiveau(tableauNiveau, nLignes, nColonnes);
+		if (deplacement(pNiveau, litClavier()))
+			printf("Erreur déplacement\n");
+		afficherNiveau(pNiveau->tabNiveau, pNiveau->nLignes, pNiveau->nColonnes);
 	}	
 	return 0;
 }

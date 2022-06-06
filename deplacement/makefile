@@ -1,11 +1,11 @@
-CFLAGS=-g -Wall -Werror
+CFLAGS=-g -Wall
 LDFLAGS=-lm
 CC=gcc
 
-main: maintemp.o lectureTableau.o affichageTableau.o util.o deplacement.o
+main: maintemp.o lectureTableau.o affichageTableau.o util.o deplacement.o io.o
 	${CC} -o $@ ${CFLAGS} $^ ${LDFLAGS}
 .c.o:
 	${CC} ${CFLAGS} -c $<
 clean:
-	rm main
-	rm *.o
+	rm -f main
+	rm -f *.o

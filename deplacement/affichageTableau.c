@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "affichageTableau.h"
 
 void afficherNiveau(char ***tableauNiveau, int nLignes, int nColonnes){
 	int iLigne, iColonne;
