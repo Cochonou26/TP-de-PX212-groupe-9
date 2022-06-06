@@ -35,18 +35,18 @@ int litClavier()
 	}
 }
 
-int lit_entree() {                              //fonction qui rend le deplacement
+int litEntree() {                              //fonction qui rend le deplacement
 	configureTerminal();
 	int  result;
 	result = litClavier();
 	return result;
 }
-
+/*
 int main() {                                   //fonction test
 	printf("%d\n",lit_entree());
 }	
 	
-	
+*/	
 	
 	
 	
