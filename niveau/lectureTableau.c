@@ -39,7 +39,7 @@ lireLigne(FILE *rfp)
 {
 	int c;
 
-	while ((c = fgetc(rfp)) != EOF && c != '\n');
+	while (((c = fgetc(rfp)) != EOF) && (c != '\n'));
 }
 
 /**
@@ -65,7 +65,7 @@ trouverNiveau(int numNiveau, FILE *rfp)
 	free(strNiveau);
 
 	// Traitement d'éventuelles métadonnées
-	while ((c = fgetc(rfp) != EOF)){
+	while ((c = fgetc(rfp)) != EOF){
 		if (c == ';')
 			lireLigne(rfp);
 		else{
@@ -84,7 +84,7 @@ tailleNiveau(int numNiveau, FILE *rfp)
 
 	nLignes = nColonnes = nColonnesTemp = 0;
 	
-	while ((c = fgetc(rfp)) != EOF && (c != ';')){
+	while (((c = fgetc(rfp)) != EOF) && (c != ';')){
 		n++;
 		if (c == '\n'){
 			nLignes++;
@@ -93,11 +93,10 @@ tailleNiveau(int numNiveau, FILE *rfp)
 		}else
 			nColonnesTemp++;
 	}
-	if (c == EOF){
-		nLignes++;
+	if (c == EOF){ // Ce qu'il faut faire est bizarre, à regarder
+		n--;
 		nColonnes = MAX(nColonnesTemp, nColonnes);
 	}
-
 	if (nLignes == 0 || nColonnes == 0)
 		return NULL;
 
@@ -131,7 +130,7 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 	if ((tabTaille = tailleNiveau(numNiveau, rfp)) == NULL){
 		efclose(rfp);
 		free(tabTaille);
-		printf("Taille du niveau %d non trouvée", numNiveau);
+		printf("Taille du niveau %d non trouvée\n", numNiveau);
 		return NULL;
 	}
 
