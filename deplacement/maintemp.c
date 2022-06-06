@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	afficherNiveau(tableauNiveau, nLignes, nColonnes);  */
 	
 	while (1) {  //1 tant que la condition de reussite est pas codée
-		printf("\033[H\033[2J") //equivalent au system clear (le prof prefere)
+		printf("\033[H\033[2J"); //equivalent au system clear (le prof prefere)
 		dep = litEntree();
 		deplacement(tableauNiveau, dep, plJoueur, pcJoueur);
 		afficherNiveau(tableauNiveau, nLignes, nColonnes);
