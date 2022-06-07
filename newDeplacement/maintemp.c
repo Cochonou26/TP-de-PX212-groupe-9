@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 
 	while (1) {  //1 tant que la condition de reussite est pas codée
 		printf("\033[H\033[2J"); //equivalent au system clear (le prof prefere)
-		if (deplacement(pNiveau, litClavier(),pile))
+		if (deplacement(pNiveau, litClavier(), pile))
 			printf("Erreur déplacement\n");
 		afficherNiveau(pNiveau->tabNiveau, pNiveau->nLignes, pNiveau->nColonnes);
 	}

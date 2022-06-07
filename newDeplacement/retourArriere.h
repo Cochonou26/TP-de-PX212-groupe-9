@@ -6,5 +6,5 @@ typedef struct Dep {
 	struct Dep *prev;
 }Dep;
 
-int empilerDeplacement(char direc, char depCaisse, Dep *pile);
-int retourArriere(niveau *pNiveau, Dep *pile);
+int empilerDeplacement(char direc, char depCaisse, Dep **pile);
+int retourArriere(niveau *pNiveau, Dep **pile);

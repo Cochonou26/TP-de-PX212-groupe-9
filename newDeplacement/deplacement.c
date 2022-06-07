@@ -1,4 +1,3 @@
-#include "util.h"
 #include "retourArriere.h"
 
 
@@ -19,7 +18,7 @@ int deplacement (niveau *pNiveau, char dep, Dep *pile){
 				case CIBLE: // Deplacement sans poussee
 					*tabNiveau[*lJoueur][*cJoueur] = SOL;
 					*tabNiveau[--(*lJoueur)][*cJoueur] = JOUEUR;
-					empilerDeplacement(1,0, pile);
+					empilerDeplacement(1,0, &pile);
 					return 0;
 				case CAISSE:
 					if ((*tabNiveau[*lJoueur - 2][*cJoueur] != SOL) && (*tabNiveau[*lJoueur - 2][*cJoueur] != CIBLE)) // Deplacement impossible
@@ -96,7 +95,7 @@ int deplacement (niveau *pNiveau, char dep, Dep *pile){
 					return 1;
 			}
 		case 114 : //touche r réinitialisation
-			retourArriere(pile);
+			retourArriere(pNiveau, pile);
 			return 0;
 		default:
 			return 1;

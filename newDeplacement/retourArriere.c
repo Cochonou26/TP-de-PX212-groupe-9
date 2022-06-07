@@ -3,19 +3,20 @@
 #include "retourArriere.h"
 
 
-int empilerDeplacement(char direc,char depCaisse, Dep  *pile) {
+int empilerDeplacement(char direc,char depCaisse, Dep  **pile) {
 	Dep *deplacement; 
 	deplacement= emalloc(sizeof(Dep));
 	deplacement->direction = emalloc(sizeof(char));
 	deplacement->caisse = emalloc(sizeof(char));
-	deplacement->prev = pile;
+	deplacement->prev = *pile;
 	*deplacement->direction = direc;
 	*deplacement->caisse = depCaisse;
+	*pile = deplacement;
 	return 0;
 }
 
 
-int retourArriere(niveau *pNiveau, Dep *pile) {
+int retourArriere(niveau *pNiveau, Dep **pile) {
 	int *lJoueur, *cJoueur;
 	char ***tabNiveau;
 
@@ -25,8 +26,8 @@ int retourArriere(niveau *pNiveau, Dep *pile) {
 
 
 	Dep *deplacement;
-	deplacement  = pile;
-	pile = deplacement->prev;
+	deplacement = *pile;
+	*pile = deplacement->prev;
 	if (*deplacement->direction == 1) {
 		if (*deplacement->caisse==0) {
 			*tabNiveau[*lJoueur][*cJoueur] = SOL;
