@@ -82,7 +82,7 @@ tailleNiveau(int numNiveau, FILE *rfp)
 	int nLignes, nColonnes, n, *tabTaille, nColonnesTemp;
 	int c;
 
-	nLignes = nColonnes = nColonnesTemp = 0;
+	n = nLignes = nColonnes = nColonnesTemp = 0;
 	
 	while (((c = fgetc(rfp)) != EOF) && (c != ';')){
 		n++;
