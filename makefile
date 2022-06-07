@@ -1,8 +1,11 @@
-main: fonctions.o main.o
-	gcc -g -Wall -fsanitize=address -o main fonctions.o main.o
+CFLAGS=-g -Wall
+LDFLAGS=-lm
+CC=gcc
 
-fonctions.o: fonctions.c
-	gcc -o fonctions.o -c fonctions.c -g -Wall -fsanitize=address
-
-main.o: main.c fonctions.h
-	gcc -o main.o -c main.c -g -Wall -fsanitize=address
+main: maintemp.o lectureTableau.o affichageTableau.o util.o deplacement.o io.o positionObjectif.o
+	${CC} -o $@ ${CFLAGS} $^ ${LDFLAGS}
+.c.o:
+	${CC} ${CFLAGS} -c $<
+clean:
+	rm -f main
+	rm -f *.o

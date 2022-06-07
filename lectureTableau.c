@@ -139,16 +139,15 @@ niveau * creerNiveau(char *fichierNiveaux, int numNiveau)
 	}
 
 	fseek(rfp, -(tabTaille[2] + 1), SEEK_CUR); // Retour de rfp avant le niveau
-	pNiveau->tabCible=emalloc(tabTaille[3]*sizeof(int));
+	pNiveau->tabCible=emalloc(tabTaille[3]*sizeof(int*));
 	for (i=0;i<tabTaille[3];i++){
-		*pNiveau->tabCible=emalloc(2*sizeof(int));
+		pNiveau->tabCible[i]=emalloc(2*sizeof(int));
 	}
 
 	// Affectation taille niveau
 	pNiveau->nLignes = tabTaille[0];
 	pNiveau->nColonnes = tabTaille[1];
 	free(tabTaille);
-
 
 
 	// Allocation mémoire du tableau
@@ -171,8 +170,8 @@ niveau * creerNiveau(char *fichierNiveaux, int numNiveau)
 				*pNiveau->cJoueur = iColonne;
 			}
 			else if (c == CIBLE){
-				pNiveau->tabCible[compteur][0] = iLigne;
-				pNiveau->tabCible[compteur][1] = iColonne;
+				(pNiveau->tabCible[compteur][0]) = iLigne;
+				(pNiveau->tabCible[compteur][1]) = iColonne;
 				compteur++;
 			}
 			else if (c == '\n')
