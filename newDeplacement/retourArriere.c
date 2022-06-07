@@ -20,6 +20,9 @@ int retourArriere(niveau *pNiveau, Dep **pile) {
 	int *lJoueur, *cJoueur;
 	char ***tabNiveau;
 
+	if ((*pile)->prev == NULL)
+		return 0;
+
 	lJoueur = pNiveau->lJoueur;
 	cJoueur = pNiveau->cJoueur;
 	tabNiveau = pNiveau->tabNiveau;
