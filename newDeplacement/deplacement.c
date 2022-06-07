@@ -1,94 +1,87 @@
+#include <stdio.h>
 #include "retourArriere.h"
 
-
-int deplacement (niveau *pNiveau, char dep, Dep **pile){
-	int *lJoueur, *cJoueur;
-	char ***tabNiveau;
-
-	lJoueur = pNiveau->lJoueur;
-	cJoueur = pNiveau->cJoueur;
-	tabNiveau = pNiveau->tabNiveau;
-
+int deplacement(Niveau *pNiveau, char dep, Dep **pile){
 	switch (dep){
 		case 1: // haut
-			switch (*tabNiveau[*lJoueur - 1][*cJoueur]){
+			switch ((pNiveau->tabNiveau)[pNiveau->lJoueur - 1][pNiveau->cJoueur]){
 				case MUR: // Deplacement impossible
 					return 0;
 				case SOL:
 				case CIBLE: // Deplacement sans poussee
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[--(*lJoueur)][*cJoueur] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[--(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					empilerDeplacement(1,0, pile);
 					return 0;
 				case CAISSE:
-					if ((*tabNiveau[*lJoueur - 2][*cJoueur] != SOL) && (*tabNiveau[*lJoueur - 2][*cJoueur] != CIBLE)) // Deplacement impossible
+					if (((pNiveau->tabNiveau)[pNiveau->lJoueur - 2][pNiveau->cJoueur] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur - 2][pNiveau->cJoueur] == CAISSE)) // Deplacement impossible
 						return 0;
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[*lJoueur - 2][*cJoueur] = CAISSE; // Deplacement avec poussee
-					*tabNiveau[--(*lJoueur)][*cJoueur] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur - 2][pNiveau->cJoueur] = CAISSE; // Deplacement avec poussee
+					(pNiveau->tabNiveau)[--(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					empilerDeplacement(1,1,pile);
 					return 0;
 				default:
 					return 1; // Erreur deplacement
 			}
 		case 2: // bas
-			switch (*tabNiveau[*lJoueur + 1][*cJoueur]){
+			switch ((pNiveau->tabNiveau)[pNiveau->lJoueur + 1][pNiveau->cJoueur]){
 				case MUR: // Deplacement impossible
 					return 0;
 				case SOL:
 				case CIBLE: // Deplacement sans poussee
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[++(*lJoueur)][*cJoueur] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[++(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					empilerDeplacement(2,0,pile);
 					return 0;
 				case CAISSE:
-					if ((*tabNiveau[*lJoueur + 2][*cJoueur] != SOL) && (*tabNiveau[*lJoueur + 2][*cJoueur] != CIBLE)) // Deplacement impossible
+					if (((pNiveau->tabNiveau)[pNiveau->lJoueur + 2][pNiveau->cJoueur] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur + 2][pNiveau->cJoueur] == CAISSE)) // Deplacement impossible
 						return 0;
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[*lJoueur + 2][*cJoueur] = CAISSE; // Deplacement avec poussee
-					*tabNiveau[++(*lJoueur)][*cJoueur] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur + 2][pNiveau->cJoueur] = CAISSE; // Deplacement avec poussee
+					(pNiveau->tabNiveau)[++(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					empilerDeplacement(2,1,pile);
 					return 0;
 				default:
 					return 1; // Erreur deplacement
 			}
 		case 3: // droite
-			switch (*tabNiveau[*lJoueur][*cJoueur + 1]){
+			switch ((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 1]){
 				case MUR: // Deplacement impossible
 					return 0;
 				case SOL: 
 				case CIBLE: // Deplacement sans poussee
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[*lJoueur][++(*cJoueur)] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][++(pNiveau->cJoueur)] = JOUEUR;
 					empilerDeplacement(3,0,pile);
 					return 0;
 				case CAISSE:
-					if ((*tabNiveau[*lJoueur][*cJoueur + 2] != SOL) && (*tabNiveau[*lJoueur][*cJoueur + 2] != CIBLE)) // Deplacement impossible
+					if (((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 2] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 2] == CAISSE)) // Deplacement impossible
 						return 0;
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[*lJoueur][*cJoueur + 2] = CAISSE; // Deplacement avec poussee
-					*tabNiveau[*lJoueur][++(*cJoueur)] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 2] = CAISSE; // Deplacement avec poussee
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][++(pNiveau->cJoueur)] = JOUEUR;
 					empilerDeplacement(3,1,pile);
 					return 0;
 				default:
 					return 1; // Erreur deplacement
 			}
 		case 4: // gauche
-			switch (*tabNiveau[*lJoueur][*cJoueur - 1]){
+			switch ((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 1]){
 				case MUR: // Deplacement impossible
 					return 0;
 				case SOL: 
 				case CIBLE: // Deplacement sans poussee
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[*lJoueur][--(*cJoueur)] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][--(pNiveau->cJoueur)] = JOUEUR;
 					empilerDeplacement(4,0,pile);
 					return 0;
 				case CAISSE:
-					if ((*tabNiveau[*lJoueur][*cJoueur - 2] != SOL) && (*tabNiveau[*lJoueur][*cJoueur - 2] != CIBLE)) // Deplacement impossible
+					if (((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 2] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 2] == CAISSE)) // Deplacement impossible
 						return 0;
-					*tabNiveau[*lJoueur][*cJoueur] = SOL;
-					*tabNiveau[*lJoueur][*cJoueur - 2] = CAISSE; // Deplacement avec poussee
-					*tabNiveau[*lJoueur][--(*cJoueur)] = JOUEUR;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 2] = CAISSE; // Deplacement avec poussee
+					(pNiveau->tabNiveau)[pNiveau->lJoueur][--(pNiveau->cJoueur)] = JOUEUR;
 					empilerDeplacement(4,1,pile);
 					return 0;
 				default:

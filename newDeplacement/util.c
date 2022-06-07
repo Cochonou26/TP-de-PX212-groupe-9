@@ -35,19 +35,14 @@ efclose(FILE *stream){
 }
 
 void
-freeNiveau(niveau *pNiveau)
+freeNiveau(Niveau *pNiveau)
 {
-	int iLigne, iColonne;
+	int iLigne;
 
 	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
-		for (iColonne = 0; iColonne < pNiveau->nColonnes + 1; iColonne++){
-			free(pNiveau->tabNiveau[iLigne][iColonne]);
-		}
 		free(pNiveau->tabNiveau[iLigne]);
 	}
 	free(pNiveau->tabNiveau);
-	free(pNiveau->lJoueur);
-	free(pNiveau->cJoueur);
 	free(pNiveau);
 }
 

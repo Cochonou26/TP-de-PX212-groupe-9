@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "retourArriere.h"
-
+#include "util.h"
 
 int empilerDeplacement(char direc,char depCaisse, Dep  **pile) {
 	Dep *deplacement; 
@@ -16,66 +16,66 @@ int empilerDeplacement(char direc,char depCaisse, Dep  **pile) {
 }
 
 
-int retourArriere(niveau *pNiveau, Dep **pile) {
-	int *lJoueur, *cJoueur;
-	char ***tabNiveau;
-
+int retourArriere(Niveau *pNiveau, Dep **pile) {
+	Dep *deplacement;
+	
 	if ((*pile)->prev == NULL)
 		return 0;
 
-	lJoueur = pNiveau->lJoueur;
-	cJoueur = pNiveau->cJoueur;
-	tabNiveau = pNiveau->tabNiveau;
-
-
-	Dep *deplacement;
 	deplacement = *pile;
 	*pile = deplacement->prev;
 	if (*deplacement->direction == 1) {
 		if (*deplacement->caisse==0) {
-			*tabNiveau[*lJoueur][*cJoueur] = SOL;
-			*tabNiveau[++(*lJoueur)][*cJoueur] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+			(pNiveau->tabNiveau)[++(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 		}
 		if (*deplacement->caisse== 1) {
-			*tabNiveau[*lJoueur][*cJoueur] = CAISSE;
-			*tabNiveau[*lJoueur - 1][*cJoueur] = SOL;
-			*tabNiveau[++(*lJoueur)][*cJoueur] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = CAISSE;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur - 1][pNiveau->cJoueur] = SOL;
+			(pNiveau->tabNiveau)[++(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 		}
 	}
 	if (*deplacement->direction == 2) {
 		if (*deplacement->caisse==0) {
-			*tabNiveau[*lJoueur][*cJoueur] = SOL;
-			*tabNiveau[--(*lJoueur)][*cJoueur] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+			(pNiveau->tabNiveau)[--(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 		}
 		if (*deplacement->caisse== 1) {
-			*tabNiveau[*lJoueur][*cJoueur] = CAISSE;
-			*tabNiveau[*lJoueur + 1][*cJoueur] = SOL;
-			*tabNiveau[--(*lJoueur)][*cJoueur] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = CAISSE;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur + 1][pNiveau->cJoueur] = SOL;
+			(pNiveau->tabNiveau)[--(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 		}
 	}
 	if (*deplacement->direction == 3) {
 		if (*deplacement->caisse==0) {
-			*tabNiveau[*lJoueur][*cJoueur] = SOL;
-			*tabNiveau[(*lJoueur)][--(*cJoueur)] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+			(pNiveau->tabNiveau)[(pNiveau->lJoueur)][--(pNiveau->cJoueur)] = JOUEUR;
 		}
 		if (*deplacement->caisse== 1) {
-			*tabNiveau[*lJoueur][*cJoueur] = CAISSE;
-			*tabNiveau[*lJoueur][*cJoueur + 1] = SOL;
-			*tabNiveau[(*lJoueur)][--(*cJoueur)] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = CAISSE;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 1] = SOL;
+			(pNiveau->tabNiveau)[(pNiveau->lJoueur)][--(pNiveau->cJoueur)] = JOUEUR;
 		}
 	}
 	if (*deplacement->direction == 4) {
 		if (*deplacement->caisse==0) {
-			*tabNiveau[*lJoueur][*cJoueur] = SOL;
-			*tabNiveau[(*lJoueur)][++(*cJoueur)] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
+			(pNiveau->tabNiveau)[(pNiveau->lJoueur)][++(pNiveau->cJoueur)] = JOUEUR;
 		}
 		if (*deplacement->caisse== 1) {
-			*tabNiveau[*lJoueur][*cJoueur] = CAISSE;
-			*tabNiveau[*lJoueur][*cJoueur - 1] = SOL;
-			*tabNiveau[(*lJoueur)][++(*cJoueur)] = JOUEUR;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = CAISSE;
+			(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 1] = SOL;
+			(pNiveau->tabNiveau)[(pNiveau->lJoueur)][++(pNiveau->cJoueur)] = JOUEUR;
 		}
 	}
-	else return 1;
+	else{
+		free(deplacement->caisse);
+		free(deplacement->direction);
+		free(deplacement);
+		return 1;
+	}
+	free(deplacement->caisse);
+	free(deplacement->direction);	
 	free(deplacement);
 	return 0;
 }

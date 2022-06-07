@@ -1,10 +1,9 @@
-#include "util.h"
+#ifndef _RETOUR_ARRIERE_H_
+#define _RETOUR_ARRIERE_H_
 
-typedef struct Dep {
-	char *direction;
-	char *caisse;
-	struct Dep *prev;
-}Dep;
+#include "global.h"
 
 int empilerDeplacement(char direc, char depCaisse, Dep **pile);
-int retourArriere(niveau *pNiveau, Dep **pile);
+int retourArriere(Niveau *pNiveau, Dep **pile);
+
+#endif

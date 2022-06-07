@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "global.h"
 #include "util.h"
 
 /**
@@ -108,18 +109,16 @@ tailleNiveau(int numNiveau, FILE *rfp)
 	return tabTaille;
 }
 
-niveau *
+Niveau *
 creerNiveau(char *fichierNiveaux, int numNiveau)
 {
-	niveau *pNiveau;
+	Niveau *pNiveau;
 	FILE *rfp;
 	int iLigne, iColonne, *tabTaille;
 	int c;
 
-	pNiveau = emalloc(sizeof(niveau));
-	pNiveau->lJoueur = emalloc(sizeof(int));
-	pNiveau->cJoueur = emalloc(sizeof(int));
-
+	pNiveau = emalloc(sizeof(Niveau));
+	
 	// Positionnement de rfp avant le niveau
 	rfp = efopen(fichierNiveaux, "r");
 	if (trouverNiveau(numNiveau, rfp)){
@@ -146,12 +145,11 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 
 	
 	// Allocation mémoire du tableau
-	pNiveau->tabNiveau = emalloc(sizeof(char **) * pNiveau->nLignes);
+	pNiveau->tabNiveau = emalloc(sizeof(char *) * pNiveau->nLignes);
 	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
-		pNiveau->tabNiveau[iLigne] = emalloc(sizeof(char *) * (pNiveau->nColonnes + 1)); // + 1 pour '\n'
+		pNiveau->tabNiveau[iLigne] = emalloc(sizeof(char) * (pNiveau->nColonnes + 1)); // + 1 pour '\n'
 		for (iColonne = 0; iColonne < (pNiveau->nColonnes + 1); iColonne++){
-			pNiveau->tabNiveau[iLigne][iColonne] = emalloc(sizeof(char));
-			*pNiveau->tabNiveau[iLigne][iColonne] = SOL;
+			pNiveau->tabNiveau[iLigne][iColonne] = SOL;
 		}
 	}
 
@@ -159,10 +157,10 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
 		for (iColonne = 0; iColonne < (pNiveau->nColonnes + 1); iColonne++){
 			c = fgetc(rfp);
-			*pNiveau->tabNiveau[iLigne][iColonne] = c;
+			pNiveau->tabNiveau[iLigne][iColonne] = c;
 			if (c == '@'){
-				*pNiveau->lJoueur = iLigne;
-				*pNiveau->cJoueur = iColonne;
+				pNiveau->lJoueur = iLigne;
+				pNiveau->cJoueur = iColonne;
 			}else if (c == '\n')
 				break;
 		}
