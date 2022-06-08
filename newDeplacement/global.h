@@ -12,8 +12,8 @@ typedef struct Niveau{
 }Niveau;
 
 typedef struct Dep {
-	char *direction;
-	char *caisse;
+	char direction;
+	char caisse;
 	struct Dep *prev;
 }Dep;
 
