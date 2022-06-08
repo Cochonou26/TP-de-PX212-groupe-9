@@ -37,12 +37,14 @@ efclose(FILE *stream){
 void
 freeNiveau(Niveau *pNiveau)
 {
-	int iLigne;
+	int iLigne, iCible;
 
-	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
+	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++)
 		free(pNiveau->tabNiveau[iLigne]);
-	}
 	free(pNiveau->tabNiveau);
+	for (iCible = 0; iCible < pNiveau->nCibles; iCible++)
+		free(pNiveau->tabCibles[iCible]);
+	free (pNiveau->tabCibles);
 	free(pNiveau);
 }
 

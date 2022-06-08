@@ -1,29 +1,38 @@
-int main(int argc, int *argv[]){
-	while (!finJeu){
-		lireNiveau();
-		afficherNiveau();
-		while (!reussiteNiveau){
-			switch (litEntree();){
-				case 115: //touche S pour sauvegarder
-					sauvergardePartie(FILE *fichierSauvegarde);
-					break;
-				case 114: //touche R pour recommencer
-					reinitialiserNiveau(); // a voir pour affichage / reset
-					break;
-				case 127: //touche echap pour annuler
-					annulerCoup(); // a voir pour affichage / reset
-					break;
-				case 1:    //ici on utiise la fonction dans deplacement.c (haut)
-				case 2:    //bas
-				case 3:    //gauche
-				case 4:    //droite
-					gestionDeplacement();
-					comptage();
-					detectionReussite();
-				case default:
-					afficherNiveau();
-			}
-		}
+#include <stdio.h>
+#include "global.h"
+#include "lectureTableau.h"
+#include "affichageTableau.h"
+#include "deplacement.h"
+#include "io.h"
+#include "positionObjectifs.h"
+#include "util.h"
+
+int main(int argc, char *argv[]){
+	int numNiveau;
+	char *fichierNiveaux = "levels.lvl";
+	Niveau *pNiveau;
+	Dep *pile;
+	pile = emalloc(sizeof(Dep));
+	pile->prev = NULL;
+
+	numNiveau = 1;
+
+	if ((pNiveau = creerNiveau(fichierNiveaux, numNiveau)) == NULL) // Creation niveau
+		printf("Erreur création niveau %d\n", numNiveau);
+
+	if (configureTerminal())
+		printf("Erreur configuration terminal\n");
+	printf("\033[H\033[2J");
+	afficherNiveau(pNiveau);
+
+	while (1) {  //1 tant que la condition de reussite est pas codée
+		printf("\033[H\033[2J"); //equivalent au system clear
+		if (deplacement(pNiveau, litClavier(), &pile))
+			printf("Erreur déplacement\n");	
+		printf("NIVEAU %d\n", numNiveau);
+		remplacerObjectifs(pNiveau);
+		afficherNiveau(pNiveau);
 	}
+	freeNiveau(pNiveau);
 	return 0;
 }

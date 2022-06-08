@@ -13,6 +13,7 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile){
 					(pNiveau->tabNiveau)[--(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					empilerDeplacement(1,0, pile);
 					return 0;
+				case ARRIVE:
 				case CAISSE:
 					if (((pNiveau->tabNiveau)[pNiveau->lJoueur - 2][pNiveau->cJoueur] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur - 2][pNiveau->cJoueur] == CAISSE)) // Deplacement impossible
 						return 0;
@@ -34,6 +35,7 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile){
 					(pNiveau->tabNiveau)[++(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					empilerDeplacement(2,0,pile);
 					return 0;
+				case ARRIVE:
 				case CAISSE:
 					if (((pNiveau->tabNiveau)[pNiveau->lJoueur + 2][pNiveau->cJoueur] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur + 2][pNiveau->cJoueur] == CAISSE)) // Deplacement impossible
 						return 0;
@@ -55,6 +57,7 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile){
 					(pNiveau->tabNiveau)[pNiveau->lJoueur][++(pNiveau->cJoueur)] = JOUEUR;
 					empilerDeplacement(3,0,pile);
 					return 0;
+				case ARRIVE:
 				case CAISSE:
 					if (((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 2] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur + 2] == CAISSE)) // Deplacement impossible
 						return 0;
@@ -75,7 +78,8 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile){
 					(pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur] = SOL;
 					(pNiveau->tabNiveau)[pNiveau->lJoueur][--(pNiveau->cJoueur)] = JOUEUR;
 					empilerDeplacement(4,0,pile);
-					return 0;
+					return 0;	
+				case ARRIVE:
 				case CAISSE:
 					if (((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 2] == MUR) || ((pNiveau->tabNiveau)[pNiveau->lJoueur][pNiveau->cJoueur - 2] == CAISSE)) // Deplacement impossible
 						return 0;

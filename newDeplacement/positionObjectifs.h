@@ -1,0 +1,2 @@
+int remplacerObjectifs(Niveau *pNiveau);
+

@@ -7,6 +7,8 @@ typedef struct Niveau{
 	int nColonnes;
 	int lJoueur;
 	int cJoueur;
+	int **tabCibles;
+	int nCibles;
 }Niveau;
 
 typedef struct Dep {
@@ -15,6 +17,6 @@ typedef struct Dep {
 	struct Dep *prev;
 }Dep;
 
-enum objets{SOL = ' ', MUR = '#', CAISSE = '$', JOUEUR = '@', CIBLE = '.'};
+enum objets{SOL = ' ', MUR = '#', CAISSE = '$', JOUEUR = '@', CIBLE = '.', ARRIVE = '*'};
 
 #endif

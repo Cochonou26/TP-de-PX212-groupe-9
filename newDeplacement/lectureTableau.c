@@ -80,10 +80,10 @@ trouverNiveau(int numNiveau, FILE *rfp)
 int *
 tailleNiveau(int numNiveau, FILE *rfp)
 {
-	int nLignes, nColonnes, n, *tabTaille, nColonnesTemp;
+	int nLignes, nColonnes, n, *tabTaille, nColonnesTemp, nCibles;
 	int c;
-
-	n = nLignes = nColonnes = nColonnesTemp = 0;
+	
+	n = nLignes = nColonnes = nColonnesTemp = nCibles = 0;
 	
 	while (((c = fgetc(rfp)) != EOF) && (c != ';')){
 		n++;
@@ -91,8 +91,11 @@ tailleNiveau(int numNiveau, FILE *rfp)
 			nLignes++;
 			nColonnes = MAX(nColonnesTemp, nColonnes);
 			nColonnesTemp = 0;
-		}else
+		}else{
+			if (c == CIBLE)
+				nCibles++;
 			nColonnesTemp++;
+		}
 	}
 	if (c == EOF){ // Ce qu'il faut faire est bizarre, à regarder
 		n--;
@@ -101,10 +104,11 @@ tailleNiveau(int numNiveau, FILE *rfp)
 	if (nLignes == 0 || nColonnes == 0)
 		return NULL;
 
-	tabTaille = emalloc(3*sizeof(int));
+	tabTaille = emalloc(4*sizeof(int));
 	tabTaille[0] = nLignes;
 	tabTaille[1] = nColonnes;
 	tabTaille[2] = n;
+	tabTaille[3] = nCibles;
 	printf("Dimensions niveau : %d lignes, %d colonnes\n", nLignes, nColonnes);
 	return tabTaille;
 }
@@ -114,7 +118,7 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 {
 	Niveau *pNiveau;
 	FILE *rfp;
-	int iLigne, iColonne, *tabTaille;
+	int iLigne, iColonne, *tabTaille, iCible;
 	int c;
 
 	pNiveau = emalloc(sizeof(Niveau));
@@ -135,16 +139,22 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 		return NULL;
 	}
 
-	fseek(rfp, -(tabTaille[2] + 1), SEEK_CUR); // Retour de rfp avant le niveau
+	fseek(rfp, -(tabTaille[2] + 1), SEEK_CUR);	// Retour de rfp avant le niveau
 
 	// Affectation taille niveau
 	pNiveau->nLignes = tabTaille[0];
-	pNiveau->nColonnes = tabTaille[1];	
+	pNiveau->nColonnes = tabTaille[1];
+	pNiveau->nCibles = tabTaille[3];	
 	free(tabTaille);
 
-
+	// Allocation mémoire tableau cibles
+	pNiveau->tabCibles = emalloc(sizeof(int *) * pNiveau->nCibles);
+	for (iCible = 0; iCible < pNiveau->nCibles; iCible++){
+		pNiveau->tabCibles[iCible] = emalloc(sizeof(int) * 2);
+	}
+	iCible = 0;
 	
-	// Allocation mémoire du tableau
+	// Allocation mémoire tableau niveau
 	pNiveau->tabNiveau = emalloc(sizeof(char *) * pNiveau->nLignes);
 	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
 		pNiveau->tabNiveau[iLigne] = emalloc(sizeof(char) * (pNiveau->nColonnes + 1)); // + 1 pour '\n'
@@ -153,14 +163,18 @@ creerNiveau(char *fichierNiveaux, int numNiveau)
 		}
 	}
 
-	// Remplissage du tableau
+	// Remplissage du tableau niveau
 	for (iLigne = 0; iLigne < pNiveau->nLignes; iLigne++){
 		for (iColonne = 0; iColonne < (pNiveau->nColonnes + 1); iColonne++){
 			c = fgetc(rfp);
 			pNiveau->tabNiveau[iLigne][iColonne] = c;
-			if (c == '@'){
+			if (c == JOUEUR){
 				pNiveau->lJoueur = iLigne;
 				pNiveau->cJoueur = iColonne;
+			}else if (c == CIBLE){
+				pNiveau->tabCibles[iCible][0] = iLigne;
+				pNiveau->tabCibles[iCible][1] = iColonne;
+				iCible++;
 			}else if (c == '\n')
 				break;
 		}
