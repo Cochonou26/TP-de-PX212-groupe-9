@@ -4,7 +4,7 @@
 #include "util.h"
 
 int empilerDeplacement(char direc,char depCaisse, Dep  **pile) {
-	Dep *deplacement; 
+	Dep *deplacement;	
 	deplacement= emalloc(sizeof(Dep));
 	deplacement->prev = *pile;
 	deplacement->direction = direc;

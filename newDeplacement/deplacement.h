@@ -3,6 +3,6 @@
 
 #include "global.h"
 
-int deplacement(Niveau *pNiveau, char dep, Dep **pile);
+int deplacement(Niveau *pNiveau, char dep, Dep **pile, int *compteurCoups);
 
 #endif

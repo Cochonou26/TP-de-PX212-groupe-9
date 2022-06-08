@@ -1,4 +1,4 @@
-CFLAGS=-g -Wall
+CFLAGS=-g -Wall -fsanitize=address
 LDFLAGS=-lm
 CC=gcc
 

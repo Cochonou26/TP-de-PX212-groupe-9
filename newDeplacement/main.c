@@ -9,28 +9,32 @@
 #include "retourArriere.h"
 
 int main(int argc, char *argv[]){
-	int numNiveau;
+	int numNiveau, *compteurCoups;
 	char *fichierNiveaux = "levels.lvl";
 	Niveau *pNiveau;
 	Dep *pile;
+
 	pile = emalloc(sizeof(Dep));
 	pile->prev = NULL;
-
-	for (numNiveau = 1; numNiveau<=88; numNiveau++) {
-		if ((pNiveau = creerNiveau(fichierNiveaux, numNiveau)) == NULL) // Creation niveau
+	compteurCoups = emalloc(sizeof(int));
+	*compteurCoups = 0;
+	
+	for (numNiveau = 1; numNiveau <= 88; numNiveau++) {
+		pNiveau = creerNiveau(fichierNiveaux, numNiveau);
+		if (pNiveau == NULL) // Creation niveau
 			printf("Erreur création niveau %d\n", numNiveau);
 
 		if (configureTerminal())
 			printf("Erreur configuration terminal\n");
 		printf("\033[H\033[2J");
-		printf("NIVEAU %d\n", numNiveau);
+		printf("Niveau %d\nCoups : %d\n", numNiveau, *compteurCoups);
 		afficherNiveau(pNiveau);
 
 		while (verifierVictoire(pNiveau)) {  //1 tant que la condition de reussite est pas codée
+			if (deplacement(pNiveau, litClavier(), &pile, compteurCoups))
+				printf("déplacement non permit\n");
 			printf("\033[H\033[2J"); //equivalent au system clear
-			if (deplacement(pNiveau, litClavier(), &pile))
-				printf("déplacement non permit\n");	
-			printf("NIVEAU %d\n", numNiveau);
+			printf("NIVEAU %d\nCoups : %d\n", numNiveau, *compteurCoups);
 			remplacerObjectifs(pNiveau);
 			afficherNiveau(pNiveau);
 		}
@@ -38,6 +42,7 @@ int main(int argc, char *argv[]){
 			retourArriere(pNiveau, &pile);
 		}
 		freeNiveau(pNiveau);
+		*compteurCoups = 0;
 	}
 	return 0;
 }
