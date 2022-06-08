@@ -60,9 +60,9 @@ int enregistrement(Dep *pile, int numNiveau){
   return 0;
 }
 
-long chercherNiveau(){
+int chercherNiveau(){
   FILE* rfp=NULL;
-  long numNiveau=0;
+  int numNiveau=0;
   int compteur=0;
   char* strNumNiveau;
   rfp=efopen("sauvegarde.txt","r");
@@ -74,7 +74,7 @@ long chercherNiveau(){
   strNumNiveau=emalloc(sizeof(char)*compteur+1);
   fseek(rfp,0,SEEK_SET);
   fgets(strNumNiveau,compteur+1,rfp);
-  numNiveau=strtol(strNumNiveau,NULL,10);
+  numNiveau=(int)strtol(strNumNiveau,NULL,10);
 
   return numNiveau;
 }
