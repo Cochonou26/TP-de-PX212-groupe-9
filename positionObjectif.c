@@ -4,22 +4,28 @@
 #include <string.h>
 #include "fonctions.h"
 
-int remplacerObjectif(niveau * pNiveau){
+int remplacerObjectif(Niveau * pNiveau){
 
-  int compteur=0;
+  int compteur=0, arrive= 0;
 
   while ((pNiveau->tabCible[compteur])!=NULL){
 
-    if (*pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==SOL){
-      *pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]=CIBLE;
+    if (pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==SOL){
+      pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]=CIBLE;
     }
 
-    else if (*pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==CAISSE){
-      *pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]=ARRIVE;
+    else if (pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==CAISSE){
+      pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]=ARRIVE;
     }
 
+    else if (pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==ARRIVE){
+      arrive++;
+    }
     compteur++;
-    
+  }
+
+  if (arrive==compteur){
+    return 0;
   }
 
   return 1;
