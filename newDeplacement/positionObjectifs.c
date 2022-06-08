@@ -8,7 +8,7 @@ int remplacerObjectifs(Niveau *pNiveau){
     if (pNiveau->tabNiveau[pNiveau->tabCibles[iCible][0]][pNiveau->tabCibles[iCible][1]] == SOL){
       pNiveau->tabNiveau[pNiveau->tabCibles[iCible][0]][pNiveau->tabCibles[iCible][1]] = CIBLE;
     }
-    if (pNiveau->tabNiveau[pNiveau->tabCibles[iCible][0]][pNiveau->tabCibles[iCible][1]] == CAISSE){
+    else if (pNiveau->tabNiveau[pNiveau->tabCibles[iCible][0]][pNiveau->tabCibles[iCible][1]] == CAISSE){
       pNiveau->tabNiveau[pNiveau->tabCibles[iCible][0]][pNiveau->tabCibles[iCible][1]] = ARRIVE;
     }
   }
