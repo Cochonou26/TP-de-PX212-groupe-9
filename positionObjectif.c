@@ -18,7 +18,7 @@ int remplacerObjectif(Niveau * pNiveau){
       pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]=ARRIVE;
     }
 
-    else if (pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==ARRIVE){
+    if (pNiveau->tabNiveau[pNiveau->tabCible[compteur][0]][pNiveau->tabCible[compteur][1]]==ARRIVE){
       arrive++;
     }
     compteur++;
