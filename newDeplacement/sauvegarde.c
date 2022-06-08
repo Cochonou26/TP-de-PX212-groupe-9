@@ -30,7 +30,7 @@ int verifierSauvegarde(){
   return 0;
 }
 
-int repriseSauvegarde(Dep *pile, Niveau *pNiveau){
+int repriseSauvegarde(Dep *pile, Niveau *pNiveau, int s*compteurCoups){
 
   FILE* rfp=NULL;
   rfp=efopen("sauvegarde.txt","r");
@@ -38,7 +38,7 @@ int repriseSauvegarde(Dep *pile, Niveau *pNiveau){
   fseek(rfp,-1,SEEK_END);
   mvts=fgetc(rfp);
   while (mvts!=NULL){
-    deplacement(pNiveau,*mvts,&pile);
+    deplacement(pNiveau,*mvts,&pile, compteurCoups);
     fseek(rfp,-2,SEEK_CUR);
     *mvts=fgetc(rfp);
   }

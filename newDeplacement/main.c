@@ -7,6 +7,7 @@
 #include "positionObjectifs.h"
 #include "util.h"
 #include "retourArriere.h"
+#include "sauvegarde.h"
 
 int main(int argc, char *argv[]){
 	int numNiveau, *compteurCoups;
@@ -18,8 +19,10 @@ int main(int argc, char *argv[]){
 	pile->prev = NULL;
 	compteurCoups = emalloc(sizeof(int));
 	*compteurCoups = 0;
-	
-	for (numNiveau = 1; numNiveau <= 88; numNiveau++) {
+	if (!verifierSauvegarde()) numNiveau=chercherNiveau();
+	else numNiveau = 1;
+
+	for (; numNiveau <= 88; numNiveau++) {
 		pNiveau = creerNiveau(fichierNiveaux, numNiveau);
 		if (pNiveau == NULL) // Creation niveau
 			printf("Erreur création niveau %d\n", numNiveau);
@@ -29,6 +32,13 @@ int main(int argc, char *argv[]){
 		printf("\033[H\033[2J");
 		printf("Niveau %d\nCoups : %d\n", numNiveau, *compteurCoups);
 		afficherNiveau(pNiveau);
+
+		if (!verifierSauvegarde()){
+			repriseSauvegarde(pile, pNiveau);
+			printf("\033[H\033[2J");
+			printf("Niveau %d\nCoups : %d\n", numNiveau, *compteurCoups);
+			afficherNiveau(pNiveau);
+		}
 
 		while (verifierVictoire(pNiveau)) {  //1 tant que la condition de reussite est pas codée
 			if (deplacement(pNiveau, litClavier(), &pile, compteurCoups))
