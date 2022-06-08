@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
 	if (configureTerminal())
 		printf("Erreur configuration terminal\n");
 	printf("\033[H\033[2J");
+	printf("NIVEAU %d\n", numNiveau);
 	afficherNiveau(pNiveau);
 
 	while (1) {  //1 tant que la condition de reussite est pas codée
