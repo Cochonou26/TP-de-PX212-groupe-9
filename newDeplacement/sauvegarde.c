@@ -10,9 +10,13 @@ int sauvegarderTableau(Dep *pile, int numNiveau){
 
   wfp=efopen("sauvegarde.txt","w+");
   fputs(numNiveau,wfp);
+  fputc(';',wfp);
+  Dep *tampon=pile;
   while (pile->prev!=NULL){
     fputc(pile->direction,wfp);
     pile=pile->prev;
+    free(tampon);
+    tampon=pile;
   }
   efclose(wfp);
   return 0;
@@ -31,9 +35,11 @@ int repriseSauvegarde(Dep *pile, Niveau *pNiveau){
   FILE* rfp=NULL;
   rfp=efopen("sauvegarde.txt","r");
   char *mvts=emalloc(sizeof(char));
+  fseek(rfp,-1,SEEK_END);
   mvts=fgetc(rfp);
   while (mvts!=NULL){
     deplacement(pNiveau,*mvts,&pile);
+    fseek(rfp,-2,SEEK_CUR);
     *mvts=fgetc(rfp);
   }
   free(mvts);
@@ -52,4 +58,23 @@ int enregistrement(Dep *pile, int numNiveau){
   }
   efclose(wfp);
   return 0;
+}
+
+long chercherNiveau(){
+  FILE* rfp=NULL;
+  long numNiveau=0;
+  int compteur=0;
+  char* strNumNiveau;
+  rfp=efopen("sauvegarde.txt","r");
+
+  while(fgetc(rfp)!=';'){
+    compteur++;
+  }
+
+  strNumNiveau=emalloc(sizeof(char)*compteur+1);
+  fseek(rfp,0,SEEK_SET);
+  fgets(strNumNiveau,compteur+1,rfp);
+  numNiveau=strtol(strNumNiveau,NULL,10);
+
+  return numNiveau;
 }
