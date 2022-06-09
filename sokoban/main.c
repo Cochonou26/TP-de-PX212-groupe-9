@@ -58,5 +58,6 @@ int main(int argc, char *argv[]){
 		*compteurCoups = 0;
 	}
 	free(compteurCoups);
+	free(pile);
 	return 0;
 }
