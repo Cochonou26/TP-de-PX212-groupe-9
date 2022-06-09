@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
 		}
 
 		while (verifierVictoire(pNiveau) && sortie!=2) {
-			if (sortie=deplacement(pNiveau, litClavier(), &pile, compteurCoups, &numNiveau))
+			if ((sortie=deplacement(pNiveau, litClavier(), &pile, compteurCoups, &numNiveau)))
 				printf("déplacement non permit\n");
 			printf("\033[H\033[2J"); //equivalent au system clear
 			printf("NIVEAU %d\nCoups : %d\n", numNiveau, *compteurCoups);
