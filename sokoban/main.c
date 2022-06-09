@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "global.h"
 #include "lectureTableau.h"
 #include "affichageTableau.h"
