@@ -112,7 +112,7 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile, int *compteurCoups, int *
 			return 0;
 		case 115 : //touche s sauvegarde
 			sauvegarderTableau(pile, numNiveau);
-			numNiveau=89;
+			*numNiveau=89;
 			return 2;
 		default:
 			return 1;
