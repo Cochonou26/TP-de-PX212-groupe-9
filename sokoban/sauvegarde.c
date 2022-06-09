@@ -55,12 +55,10 @@ int repriseSauvegarde(Dep **pile, Niveau *pNiveau, int *compteurCoups){
   fseek(rfp,-2,SEEK_END);
   mvts[0]=fgetc(rfp);
   numNiveau=chercherNiveau();
-  printf("Avant while %c \n",*mvts);
   while (*mvts!=';'){
     deplacement(pNiveau,(*mvts)-48,pile, compteurCoups, &numNiveau);
     fseek(rfp,-3,SEEK_CUR);
     *mvts=fgetc(rfp);
-    printf("while %c ** \n",*mvts);
   }
   free(mvts);
   efclose(rfp);
