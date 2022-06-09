@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
 		if (configureTerminal())
 			printf("Erreur configuration terminal\n");
 		printf("\033[H\033[2J");
-		printf("Niveau %d\nCoups : %d\n", numNiveau, *compteurCoups);
+		printf("NIVEAU %d\nCoups : %d\n", numNiveau, *compteurCoups);
 		afficherNiveau(pNiveau);
 
 		if (!verifierSauvegarde()){
