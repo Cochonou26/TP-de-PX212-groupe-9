@@ -1,2 +1,3 @@
 #TP-de-PX212-groupe-9
- Update :: sauvegarde fonctionnelle, toujours des problèmes avec la remise en place de la sauvegarde 
+Sauvegarde fonctionnelle, toujours des problèmes avec la remise en place de la sauvegarde 
+Le fichier doxyfile est réglé pour prendre tous les fichiers pour la doc, penser à faire un mâle clean avant d'utiliser doxygen
