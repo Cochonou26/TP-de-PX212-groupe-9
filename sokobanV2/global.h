@@ -1,7 +1,7 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-/* @brief	Structure représentant un niveau et ses différents paramètres.
+/** @brief	Structure représentant un niveau et ses différents paramètres.
  *
  * @param char **tabNiveau	Tableau à deux dimensions contenant le niveau.
  * @param int nLignes		Entier contenant le nombre de lignes du niveau.
