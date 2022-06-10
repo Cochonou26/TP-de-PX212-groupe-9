@@ -62,6 +62,7 @@ int retourArriere(Niveau *pNiveau, Dep **pile, int *compteurCoups) {   //Fonctio
 					(pNiveau->tabNiveau)[++(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					break;
 			}
+			break;
 		case 2 :
 			switch (deplacement->caisse) {
 				case 0 :
@@ -74,6 +75,7 @@ int retourArriere(Niveau *pNiveau, Dep **pile, int *compteurCoups) {   //Fonctio
 					(pNiveau->tabNiveau)[--(pNiveau->lJoueur)][pNiveau->cJoueur] = JOUEUR;
 					break;
 			}
+			break;
 		case 3 :
 			switch (deplacement->caisse) {
 				case 0 :
@@ -86,6 +88,7 @@ int retourArriere(Niveau *pNiveau, Dep **pile, int *compteurCoups) {   //Fonctio
 					(pNiveau->tabNiveau)[(pNiveau->lJoueur)][--(pNiveau->cJoueur)] = JOUEUR;
 					break;
 			}
+			break;
 		case 4 :
 			switch (deplacement->caisse) {
 				case 0 :
@@ -98,6 +101,7 @@ int retourArriere(Niveau *pNiveau, Dep **pile, int *compteurCoups) {   //Fonctio
 					(pNiveau->tabNiveau)[(pNiveau->lJoueur)][++(pNiveau->cJoueur)] = JOUEUR;
 					break;
 			}
+			break;
 		default :
 			free(deplacement); //on libère la mémoire utilisée pour le déplacement dépilé
 			(*compteurCoups)--;
