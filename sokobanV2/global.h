@@ -34,6 +34,6 @@ typedef struct Dep {
 /// @brief Enumération des objets du niveau, afin qu'ils soient plus facilement lisibles.
 enum objets{SOL = ' ', MUR = '#', CAISSE = '$', JOUEUR = '@', CIBLE = '.', ARRIVE = '*'};
 /// @brief Enumération des entrées clavier afin qu'elles soient plus facilement lisibles.
-enum touches{HAUT = 1, BAS = 2, DROITE = 3, GAUCHE = 4, R = 114, S = 115, SUPPR = 127};
+enum touches{HAUT = 1, BAS = 2, DROITE = 3, GAUCHE = 4, R = 114, S = 115, SUPPR = 127, SUPPR2 = 8};
 
 #endif
