@@ -127,7 +127,6 @@ repriseSauvegarde(char *fSauvegarde, Niveau *pNiveau, Dep **pile, int *compteurC
  *
  * @return int
  */
-int
 
 int
 detecterNumNiveau(char *fSauvegarde)
