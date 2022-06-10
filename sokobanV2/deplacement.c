@@ -128,6 +128,7 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile, int *compteurCoups, int n
 		case R : //touche r retour en arriere
 			retourArriere(pNiveau, pile, compteurCoups); 
 			return 0;
+		case SUPPR2 :
 		case SUPPR : //touche suppression reinitialisation
 			 while (((*pile)->prev) != NULL) {     //vidage de la pile de déplacement
 				retourArriere(pNiveau, pile, compteurCoups);
