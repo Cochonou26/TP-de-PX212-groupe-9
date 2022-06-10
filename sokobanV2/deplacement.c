@@ -3,6 +3,30 @@
 #include "global.h"
 #include "sauvegarde.h"
 
+/**
+* @file deplacement.c
+* @brief Contient la fonction gérant les entrées clavier du joueur et qui les retranscrit en deplacements ou autres fonctionnalitées
+* @author Groupe 9
+*/
+
+/** @brief Utilise les entrées clavier de l'utilisateur et les retranscrits en des deplacements, le retour arrière, la réinitialisation ou la sauvegarde
+*
+*@param[in] int dep	Numéro du deplacement après passage dans litClavier (1,2,3 ou 4 pour les flèches diectionelles etc...).
+*@param[in] int numNiveau 	Numéro du level concerné, utilisé pour faire le déplacement dans le bon niveau.
+*@param[in] char *fSauvegarde	Fichier de sauvegarde, utilisé dans le cas où S est pressé.
+*
+*@param[out] Niveau *pNiveau	Pointeur vers structure Niveau, utilisé pour pouvoir "deplacer" les éléments du tableau que la structure contient.
+*@param[out] Dep **pile		Pointeur vers pointeur de structure Dep, utilisé pour empiler ou dépiler les déplacements du joueur au fur et à mesure.
+*@param[out] int *compteurCoups		Pointeur vers int representant le nombre de coups effectués par le joueur.
+*
+*@return int		Retourne un entier en fonction de si l'entrée clavier à été traitée ou non
+*/
+
+
+
+
+
+
 int deplacement(Niveau *pNiveau, char dep, Dep **pile, int *compteurCoups, int numNiveau, char *fSauvegarde){
 	switch (dep){
 		case HAUT: // flèche directionnelle haut
