@@ -130,7 +130,6 @@ tailleNiveau(FILE *rfp)
 	tabTaille[1] = nColonnes;
 	tabTaille[2] = n;
 	tabTaille[3] = nCibles;
-	printf("Dimensions niveau : %d lignes, %d colonnes\n", nLignes, nColonnes);
 	return tabTaille;
 }
 
