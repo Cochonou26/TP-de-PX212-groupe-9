@@ -8,3 +8,5 @@
 
 #### Pour effacer sa sauvegarde :
 rm .sauvegarde
+#### Documentation :
+Doxygen/index.html à ouvrir dans un navigateur.
