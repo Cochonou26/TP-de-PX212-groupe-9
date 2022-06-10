@@ -134,7 +134,7 @@ int deplacement(Niveau *pNiveau, char dep, Dep **pile, int *compteurCoups, int n
 			 }
 			 *compteurCoups = 0; //reinitialisation du compteur de coups 
 			return 0;
-		case S:
+		case S:  //touche s pour sauvegarder
 			sauvegarderNiveau(fSauvegarde, numNiveau, *pile, "w");
 			return 2;
 		default:
