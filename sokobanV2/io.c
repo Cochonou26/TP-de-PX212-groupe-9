@@ -4,6 +4,17 @@
 
 #define MAXSIZE 10 
 
+/**
+*@file io.c
+*@brief Contient les fonctions permettant de configurer le terminal en canonique (toutes les entrées sont directement envoyées vers le programme sans avoir à appuyer sur entrée) et de convertir les touches directionnelles en code ASCII utilisable.
+*@author Groupe 9
+*/
+
+/**@brief Configure de terminal en canonique de manière à ce que l'appui sur entrée ne soit pas nécéssaire à chaque mouvement.
+*
+*@return int 		Retourne 0 si la configuration s'est bien passée.
+*/
+
 int configureTerminal()
 {
 	struct termios new;
@@ -17,6 +28,11 @@ int configureTerminal()
 		return 1;
 	return 0;
 }
+
+/**@brief Lit la touche clavier préssée et la convertit en un char utilisable si la touche est une flèche directionnelle (1 pour haut, 2 pour bas, 3 pour droite, 4 pour gauche).
+*
+*@return int	Renvoit le code ASCII de la touche appuyée, convertie si c'est une flèche directionelle.
+*/
 
 int litClavier() 
 {
